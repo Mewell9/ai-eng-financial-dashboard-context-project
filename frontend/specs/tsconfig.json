@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.app.json",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "types": [],
+    "tsBuildInfoFile": "./node_modules/.tmp/specs.tsbuildinfo"
+  },
+  "include": ["."]
+}
