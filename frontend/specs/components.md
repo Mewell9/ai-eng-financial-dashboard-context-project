@@ -20,16 +20,16 @@ Two optional date inputs at the top of the dashboard that drive all data on the 
 | Prop | Type | Meaning |
 |------|------|---------|
 | `value` | `DateRangeFilter` | Current selected range (either field may be empty). |
-| `availableRange` | `{ minDate: string; maxDate: string }` | From `FacetsResponse`; shown as reference text. |
+| `availableRange` | `{ min_date: string; max_date: string }` | From `FacetsResponse`; shown as reference text. |
 | `onChange` | `(next: DateRangeFilter) => void` | Fired when either input changes. |
 
-**Data needed:** `GET /api/metrics/facets` for `minDate`/`maxDate`.
+**Data needed:** `GET /api/metrics/facets` for `min_date`/`max_date`.
 
 **Conditional rendering:**
-- Always render a reference hint, e.g. `Available: {minDate} → {maxDate}`.
+- Always render a reference hint, e.g. `Available: {min_date} → {max_date}`.
 - When both inputs are empty → controls show no active filter; the page shows all data.
 - When only one input is set → show the range as open-ended on the empty side.
-- If `startDate > endDate` (both set) → show an inline validation message and do **not** emit the invalid range.
+- If `start_date > end_date` (both set) → show an inline validation message and do **not** emit the invalid range.
 
 ### `DashboardDataProvider` (behavioral wrapper, not visual)
 Owns the shared `DateRangeFilter` and passes it to every data widget (KPIs, charts, alerts table) so they all filter consistently via the metrics endpoints' date params.
@@ -60,9 +60,9 @@ Table beneath the existing charts highlighting periods where spending spiked.
 
 **Columns (in order):**
 1. **Period** — `AlertEntry.period`
-2. **Recorded outcome** — `AlertEntry.outcomeTotal` (currency)
-3. **Baseline average** — `AlertEntry.baselineAverage` (currency). Label reflects the API's real meaning: *average of all prior periods* (see README note on the "previous 3 periods" divergence).
-4. **Increase** — `AlertEntry.increaseRatio` rendered as a percentage (e.g. `0.42` → `+42%`).
+2. **Recorded outcome** — `AlertEntry.outcome_total` (currency)
+3. **Baseline average** — `AlertEntry.baseline_average` (currency). Label reflects the API's real meaning: *average of all prior periods* (see README note on the "previous 3 periods" divergence).
+4. **Increase** — `AlertEntry.increase_ratio` rendered as a percentage (e.g. `0.42` → `+42%`).
 
 **Conditional rendering:**
 - `loading` → skeleton rows.
@@ -82,7 +82,7 @@ Page container with two side-by-side panels plus a summary chart.
 
 **Data needed (per render):**
 - `GET /api/metrics/facets` — authoritative category list per group.
-- `GET /api/metrics/categories/top` twice: once with `businessType: "B2B"`, once with `"B2C"`, each using `operationType: "income"`, `limit: 5`, and the shared `DateRangeFilter`.
+- `GET /api/metrics/categories/top` twice: once with `business_type: "B2B"`, once with `"B2C"`, each using `operation_type: "income"`, `limit: 5`, and the shared `DateRangeFilter`.
 
 ### `TopCategoriesPanel` (rendered twice)
 | Prop | Type | Meaning |
@@ -93,8 +93,8 @@ Page container with two side-by-side panels plus a summary chart.
 
 **Columns:**
 1. **Category** — `CategoryEntry.category`
-2. **Total income** — `CategoryEntry.totalAmount` (currency)
-3. **% of group total** — `CategoryEntry.totalAmount / sum(rows.totalAmount)` for that panel, rendered as a percentage.
+2. **Total income** — `CategoryEntry.total_amount` (currency)
+3. **% of group total** — `CategoryEntry.total_amount / sum(rows.total_amount)` for that panel, rendered as a percentage.
 
 **Conditional rendering:**
 - `loading` → skeleton rows.
@@ -109,7 +109,7 @@ Single chart below both panels comparing total income of B2B vs B2C.
 | `b2bTotal` | `number` | Total income for B2B. |
 | `b2cTotal` | `number` | Total income for B2C. |
 
-**Total source (assumption, see README):** each group's total is the **sum of that group's returned top-5 `CategoryEntry.totalAmount`** values, since only `categories/top` + `facets` are in scope for this feature.
+**Total source (assumption, see README):** each group's total is the **sum of that group's returned top-5 `CategoryEntry.total_amount`** values, since only `categories/top` + `facets` are in scope for this feature.
 
 **Conditional rendering:**
 - Both totals `0` → empty-state message instead of an empty chart.
