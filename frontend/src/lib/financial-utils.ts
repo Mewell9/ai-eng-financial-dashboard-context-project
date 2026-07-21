@@ -18,6 +18,31 @@ function formatMonthYearLabel(yearMonthKey: string): string {
   });
 }
 
+export function formatMovementPeriod(
+  movements: FinancialMovement[],
+): string {
+  if (movements.length === 0) {
+    return "Period unavailable";
+  }
+
+  let earliest = movements[0].create_date;
+  let latest = movements[0].create_date;
+
+  for (const movement of movements) {
+    if (movement.create_date < earliest) earliest = movement.create_date;
+    if (movement.create_date > latest) latest = movement.create_date;
+  }
+
+  const earliestMonth = earliest.slice(0, 7);
+  const latestMonth = latest.slice(0, 7);
+
+  if (earliestMonth === latestMonth) {
+    return formatMonthYearLabel(earliestMonth);
+  }
+
+  return `${formatMonthYearLabel(earliestMonth)} – ${formatMonthYearLabel(latestMonth)}`;
+}
+
 export function computeKPIs(movements: FinancialMovement[]): KPIMetrics {
   const totalIncome = movements
     .filter((m) => m.operation_type === "income")

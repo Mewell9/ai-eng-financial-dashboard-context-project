@@ -2,7 +2,8 @@
  * Query-parameter types for the three frontend features.
  *
  * These describe what each feature SENDS to the backend, mapping to the
- * query params documented at `/docs`. Dates are always strings in
+ * query params documented at `/docs`. Property names use snake_case to match
+ * the API's query-parameter names exactly. Dates are always strings in
  * `YYYY-MM-DD` format (the API parses them into calendar dates).
  * Types only — no request code here.
  */
@@ -15,16 +16,16 @@ import type { OperationType } from "./api-types";
  * Both fields are optional and independent:
  * - Neither set → the endpoint returns all available data.
  * - Only one set → the range is open-ended on the missing side
- *   (`startDate` only = from that date onward; `endDate` only = up to that date).
+ *   (`start_date` only = from that date onward; `end_date` only = up to that date).
  *
  * Dates MUST be formatted `YYYY-MM-DD` (e.g. `"2025-03-01"`). Valid values fall
- * within the dataset bounds reported by `FacetsResponse.minDate`/`maxDate`.
+ * within the dataset bounds reported by `FacetsResponse.min_date`/`max_date`.
  */
 export interface DateRangeFilter {
   /** Inclusive start of the range, `YYYY-MM-DD`. Omit for no lower bound. */
-  startDate?: string;
+  start_date?: string;
   /** Inclusive end of the range, `YYYY-MM-DD`. Omit for no upper bound. */
-  endDate?: string;
+  end_date?: string;
 }
 
 /**
@@ -37,7 +38,7 @@ export interface AlertsParams extends DateRangeFilter {
    * Spike sensitivity as a ratio above baseline. The UI exposes this as a
    * numeric input constrained to `0.01`–`1.0`, defaulting to `0.3`.
    * (The API itself only enforces `>= 0`; the tighter bound is a UI rule.)
-   * A period is flagged when its `increaseRatio` exceeds this threshold.
+   * A period is flagged when its `increase_ratio` exceeds this threshold.
    */
   threshold: number;
 }
@@ -51,7 +52,7 @@ export interface TopCategoriesParams extends DateRangeFilter {
    * Operation type to rank. For Feature 3 this is always `"income"`, since the
    * B2B/B2C panels show top income categories.
    */
-  operationType: OperationType;
+  operation_type: OperationType;
   /**
    * Maximum number of categories to return. Feature 3 uses `5`.
    * API constraint: integer between `1` and `20` inclusive.
@@ -62,5 +63,5 @@ export interface TopCategoriesParams extends DateRangeFilter {
    * `"B2B"` for the left panel and `"B2C"` for the right. Required here so the
    * two panels can be split; omitting it would mix both lines together.
    */
-  businessType: "B2B" | "B2C";
+  business_type: "B2B" | "B2C";
 }
