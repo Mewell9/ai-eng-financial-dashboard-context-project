@@ -1,4 +1,7 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+"use client";
+
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { KPIRow } from "@/components/dashboard/kpi-row";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -14,18 +17,22 @@ import {
   formatMovementPeriod,
 } from "@/lib/financial-utils";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
 
-const IncomeOutcomeChart = lazy(() =>
-  import("@/components/dashboard/income-outcome-chart").then((module) => ({
-    default: module.IncomeOutcomeChart,
-  })),
+const IncomeOutcomeChart = dynamic(
+  () =>
+    import("@/components/dashboard/income-outcome-chart").then(
+      (module) => module.IncomeOutcomeChart,
+    ),
+  { loading: ChartLoadingFallback, ssr: false },
 );
 
-const ProfitPercentChart = lazy(() =>
-  import("@/components/dashboard/profit-percent-chart").then((module) => ({
-    default: module.ProfitPercentChart,
-  })),
+const ProfitPercentChart = dynamic(
+  () =>
+    import("@/components/dashboard/profit-percent-chart").then(
+      (module) => module.ProfitPercentChart,
+    ),
+  { loading: ChartLoadingFallback, ssr: false },
 );
 
 function ChartLoadingFallback() {
@@ -117,12 +124,8 @@ function App() {
             <h2 id="charts-heading" className="sr-only">
               Financial charts
             </h2>
-            <Suspense fallback={<ChartLoadingFallback />}>
-              <IncomeOutcomeChart data={monthlyData} loading={loading} />
-            </Suspense>
-            <Suspense fallback={<ChartLoadingFallback />}>
-              <ProfitPercentChart data={monthlyData} loading={loading} />
-            </Suspense>
+            <IncomeOutcomeChart data={monthlyData} loading={loading} />
+            <ProfitPercentChart data={monthlyData} loading={loading} />
           </section>
         </div>
       </div>

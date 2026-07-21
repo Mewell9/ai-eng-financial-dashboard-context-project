@@ -10,7 +10,7 @@ A financial metrics dashboard for local/demo use: React + TypeScript UI and a Fa
 
 | Path | Role |
 |------|------|
-| `frontend/` | Vite + React app; entry `src/main.tsx`, UI shell `src/App.tsx` |
+| `frontend/` | Next.js + React app; App Router entry `src/app/page.tsx`, client UI `src/App.tsx` |
 | `frontend/src/components/dashboard/` | KPI row + charts |
 | `frontend/src/lib/` | Types, aggregation utils, unused static `mock-data.ts` |
 | `backend/app/main.py` | FastAPI app + CORS |
@@ -22,8 +22,8 @@ A financial metrics dashboard for local/demo use: React + TypeScript UI and a Fa
 ## How services connect
 
 - Local run: `docker compose up --build`
-- Frontend calls `/api/...`; Vite proxies `/api` → `http://backend:8000` (`frontend/vite.config.ts`)
-- Optional override: `frontend/.env` via `VITE_API_BASE_URL` (see `.env.example`)
+- Frontend calls `/api/...`; Next.js rewrites `/api` → `http://backend:8000` (`frontend/next.config.ts`)
+- Optional overrides: `BACKEND_URL` or `NEXT_PUBLIC_API_BASE_URL` (see `frontend/.env.example`)
 - Backend data is in-memory mock movements from `generate_mock_movements(seed=42)` — no database
 
 ## API surface (backend)

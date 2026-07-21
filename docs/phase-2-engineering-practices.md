@@ -8,7 +8,7 @@ Findings from reviewing `frontend/`, `backend/`, Compose, and tests. Grouped by 
 |---|----------|----------|----------|
 | 1 | Architecture | Clear FE/BE split with Compose orchestration | `frontend/`, `backend/`, `docker-compose.yml` |
 | 2 | Architecture | Deterministic mock API (`seed=42`) — no DB needed for local work | `generate_mock_movements` in `backend/app/routes.py` |
-| 3 | DX | Vite `/api` proxy keeps local/Codespaces setup simple | `frontend/vite.config.ts`, README |
+| 3 | DX | Next.js `/api` rewrite keeps local/Codespaces setup simple | `frontend/next.config.ts`, README |
 | 4 | Testing | Backend route coverage with TestClient; frontend utils covered by Vitest | `backend/tests/test_routes.py`, `financial-utils.test.ts` |
 | 5 | Naming / contracts | Shared domain vocabulary (operation/category/business types) on both sides | `financial-types.ts` ↔ Pydantic literals in `routes.py` |
 | 6 | Architecture | Pure aggregation helpers kept out of presentational components | `financial-utils.ts` + dashboard components |

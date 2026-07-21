@@ -15,7 +15,7 @@ _These instructions are [available in English](./README.md)._
 
 ---
 
-_Dashboard de métricas financieras con frontend en React + TypeScript y backend en FastAPI._
+_Dashboard de métricas financieras con frontend en Next.js + TypeScript y backend en FastAPI._
 
 ## Pasos recomendados
 
@@ -42,8 +42,8 @@ _Dashboard de métricas financieras con frontend en React + TypeScript y backend
 docker compose up --build
 ```
 
-El frontend usa por defecto el proxy de Vite para `/api`, así que no necesitas variables de entorno extra ni en desarrollo local ni en Codespaces.
-Si necesitas apuntar a otro backend, copia `frontend/.env.example` como `.env` y define `VITE_API_BASE_URL`.
+El frontend usa por defecto una reescritura de Next.js para `/api`, así que no necesitas variables de entorno extra ni en desarrollo local ni en Codespaces.
+Si necesitas apuntar a otro backend, copia `frontend/.env.example` como `.env`. Usa `BACKEND_URL` para el destino de la reescritura o `NEXT_PUBLIC_API_BASE_URL` para un origen visible en el navegador.
 
 - Frontend: http://localhost:5173
 - Backend: http://localhost:8000

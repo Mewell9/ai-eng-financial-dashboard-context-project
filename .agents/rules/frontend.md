@@ -1,10 +1,10 @@
 # Frontend
 
-**Scope:** `frontend/src/` (App, dashboard components, `lib/`).  
+**Scope:** `frontend/src/` (Next.js App Router, dashboard components, `lib/`).
 **Rationale:** Keep UI presentational; keep KPI/chart math testable.
 
 ## Conventions
-- `App.tsx` owns fetch + loading/error.
+- `app/` owns the Next.js shell and metadata; `App.tsx` owns client fetch + loading/error.
 - Types: `lib/financial-types.ts`. Math: `lib/financial-utils.ts`.
 - Prefer live `/api` over unused `lib/mock-data.ts`.
 - Dark theme default; Card/Skeleton for loading.

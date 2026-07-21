@@ -15,9 +15,8 @@ Thumbs.db
 
 # Node / frontend
 frontend/node_modules/
-frontend/dist/
-frontend/dist-ssr/
-frontend/.vite/
+frontend/.next/
+frontend/out/
 frontend/.npm/
 frontend/.pnpm-store/
 frontend/coverage/

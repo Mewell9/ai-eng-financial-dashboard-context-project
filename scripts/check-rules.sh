@@ -44,8 +44,9 @@ done
 echo
 echo "=== 4. File paths referenced in rules exist ==="
 for p in \
-  frontend/vite.config.ts \
+  frontend/next.config.ts \
   frontend/.env.example \
+  frontend/src/app/layout.tsx \
   frontend/src/App.tsx \
   frontend/src/lib/financial-types.ts \
   frontend/src/lib/financial-utils.ts \
@@ -63,7 +64,7 @@ if [ "$fe_cat" = "$be_cat" ] && [ -n "$fe_cat" ]; then ok "categories match: $fe
 
 echo
 echo "=== 6. Anti-pattern warnings still valid ==="
-if grep -q "2024" frontend/src/App.tsx; then ok "hard-coded 2024 still present (frontend.md warning valid)"; else note "no 2024 in App.tsx — update frontend.md if this was fixed"; fi
+if grep -q "2024" frontend/src/App.tsx; then bad "hard-coded 2024 found in App.tsx"; else ok "App.tsx has no hard-coded calendar year"; fi
 if grep -q "mock-data" frontend/src/App.tsx; then note "mock-data now imported in App.tsx — update rules"; else ok "mock-data.ts still unused by App.tsx (rule warning valid)"; fi
 
 echo
