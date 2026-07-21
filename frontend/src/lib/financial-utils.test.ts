@@ -4,6 +4,7 @@ import {
   computeKPIs,
   computeMonthlyData,
   formatCurrency,
+  formatMovementPeriod,
   formatPercent,
 } from "./financial-utils";
 import type { FinancialMovement } from "./financial-types";
@@ -110,5 +111,30 @@ describe("formatters", () => {
 
   it("formats percent with one decimal", () => {
     expect(formatPercent(15.555)).toBe("15.6%");
+  });
+});
+
+describe("formatMovementPeriod", () => {
+  it("derives an ordered cross-year range from movement dates", () => {
+    const movements = [
+      { ...sampleMovements[0], create_date: "2026-02-15" },
+      { ...sampleMovements[1], create_date: "2025-11-02" },
+      { ...sampleMovements[2], create_date: "2026-01-10" },
+    ];
+
+    expect(formatMovementPeriod(movements)).toBe("Nov 2025 – Feb 2026");
+  });
+
+  it("uses one label when all movements are in the same month", () => {
+    const movements = sampleMovements.map((movement, index) => ({
+      ...movement,
+      create_date: `2026-07-${String(index + 1).padStart(2, "0")}`,
+    }));
+
+    expect(formatMovementPeriod(movements)).toBe("Jul 2026");
+  });
+
+  it("returns an intentional label for an empty dataset", () => {
+    expect(formatMovementPeriod([])).toBe("Period unavailable");
   });
 });
